@@ -1,0 +1,175 @@
+CREATE DATABASE mini_irctc;
+USE mini_irctc;
+
+CREATE TABLE city (
+    city_id INT AUTO_INCREMENT PRIMARY KEY,
+    city_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE station (
+    station_id INT AUTO_INCREMENT PRIMARY KEY,
+    station_name VARCHAR(100) NOT NULL,
+    city_id INT,
+    FOREIGN KEY (city_id) REFERENCES city(city_id)
+);
+
+CREATE TABLE passenger (
+    passenger_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    gender VARCHAR(10)
+);
+
+CREATE TABLE train (
+    train_id INT AUTO_INCREMENT PRIMARY KEY,
+    train_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE train_route (
+    route_id INT AUTO_INCREMENT PRIMARY KEY,
+    train_id INT,
+    station_id INT,
+    stop_number INT,
+    arrival_time TIME,
+    departure_time TIME,
+    FOREIGN KEY (train_id) REFERENCES train(train_id),
+    FOREIGN KEY (station_id) REFERENCES station(station_id)
+);
+
+CREATE TABLE booking (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    passenger_id INT,
+    train_id INT,
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    seat_number INT,
+    coach VARCHAR(10),
+    pnr VARCHAR(20),
+    journey_date DATE,
+    FOREIGN KEY (passenger_id) REFERENCES passenger(passenger_id),
+    FOREIGN KEY (train_id) REFERENCES train(train_id)
+);
+
+INSERT INTO city (city_name) VALUES
+('Pune'),
+('Mumbai'),
+('Delhi'),
+('Ahmedabad'),
+('Bangalore');
+
+INSERT INTO station (station_name, city_id) VALUES
+('Pune Junction',1),
+('Shivajinagar',1),
+('Chinchwad',1),
+('Akurdi',1),
+('Dehu Road',1),
+('Mumbai Central',2),
+('Dadar',2),
+('Thane',2),
+('Borivali',2),
+('New Delhi',3),
+('Hazrat Nizamuddin',3),
+('Ahmedabad Junction',4),
+('Bangalore City',5);
+
+INSERT INTO passenger (name, age, gender) VALUES
+('Rahul Sharma',25,'Male'),
+('Priya Mehta',22,'Female'),
+('Amit Patel',30,'Male'),
+('Sneha Kulkarni',27,'Female'),
+('Rohit Verma',35,'Male'),
+('tanvi',19,'Female'),
+('Suman',30,'Female'),
+('tanvi',32,'Female'),
+('tanushree',22,'Female'),
+('rajveer',89,'Male'),
+('tanvi',15,'Female'),
+('rajesh',78,'Male'),
+('rajesh',52,'Male'),
+('swati',48,'Female'),
+('meena',23,'Female'),
+('sheena',34,'Female'),
+('tanvi',23,'Female'),
+('rahul',45,'Male'),
+('tanvi',23,'Female'),
+('shreya',22,'Female'),
+('rajesh',45,'Male'),
+('rahul',34,'Male'),
+('tiya',22,'Female'),
+('raj',23,'Male'),
+('gauri',25,'Female'),
+('swati',50,'Female'),
+('tanvi',34,'Female'),
+('rahul',65,'Male'),
+('yash',65,'Male'),
+('taniya',12,'Female'),
+('pankaj',78,'Male'),
+('shiv',30,'Male'),
+('yami',70,'Female'),
+('harsh',34,'Male'),
+('rajveer',78,'Male'),
+('rajesh',65,'Male'),
+('tanvi',20,'Female'),
+('sneha',23,'Female'),
+('shreya',23,'Female'),
+('shruti',78,'Female'),
+('harsh',34,'Male'),
+('reva',25,'Female'),
+('darsh',45,'Male'),
+('gauri',67,'Female'),
+('fatima',67,'Male'),
+('sham',78,'male');
+
+INSERT INTO train (train_name) VALUES
+('Deccan Express'),
+('Intercity Express'),
+('Rajdhani Express'),
+('Shatabdi Express'),
+('Duronto Express'),
+('NDLS Pune Express'),
+('Delhi Deccan Superfast'),
+('Capital Pune Link'),
+('Rajdhani Express'),
+('Duronto Express'),
+('Intercity Express'),
+('Morning Express');
+
+INSERT INTO train_route (train_id, station_id, stop_number, arrival_time, departure_time) VALUES
+(1,6,1,'06:00:00','06:10:00'),
+(1,7,2,'06:30:00','06:35:00'),
+(1,8,3,'07:00:00','07:05:00'),
+(1,1,4,'09:30:00','09:40:00'),
+(2,1,1,'07:00:00','07:05:00'),
+(2,2,2,'07:15:00','07:17:00'),
+(2,3,3,'07:40:00','07:45:00'),
+(2,7,4,'10:30:00','10:40:00'),
+(6,10,1,'05:00:00','05:10:00'),
+(6,11,2,'05:30:00','05:35:00'),
+(6,12,3,'10:00:00','10:05:00'),
+(6,1,4,'18:00:00','18:10:00'),
+(7,10,1,'06:00:00','06:10:00'),
+(7,8,2,'12:00:00','12:05:00'),
+(7,7,3,'14:00:00','14:05:00'),
+(7,1,4,'20:00:00','20:10:00'),
+(8,10,1,'07:00:00','07:10:00'),
+(8,9,2,'13:00:00','13:05:00'),
+(8,6,3,'15:00:00','15:05:00'),
+(8,1,4,'21:00:00','21:10:00'),
+(1,10,1,'06:00:00','06:10:00'),
+(1,6,2,'12:00:00','12:10:00'),
+(1,1,3,'18:00:00','18:10:00'),
+(2,6,1,'09:00:00','09:10:00'),
+(2,1,2,'13:00:00','13:10:00'),
+(3,10,1,'05:00:00','05:10:00'),
+(3,12,2,'11:00:00','11:10:00'),
+(3,1,3,'20:00:00','20:10:00'),
+(4,6,1,'06:30:00','06:40:00'),
+(4,1,2,'10:30:00','10:40:00');
+
+INSERT INTO booking (passenger_id, train_id, seat_number, coach, pnr, journey_date) VALUES
+(37,8,34,'2AC','PNR1775375666939651','2026-05-10'),
+(38,1,23,'Sleeper','PNR1775375783024714','2026-05-10'),
+(39,1,100,'Sleeper','PNR1775375793826841','2026-05-10'),
+(41,1,20,'1AC','PNR1775376225232967','2026-05-25'),
+(42,4,61,'2AC','PNR1775405290389314','2026-05-16'),
+(43,8,15,'1AC','PNR177540539765384','2026-05-09'),
+(46,1,16,'2AC','PNR1775532387457220','2026-05-16');
